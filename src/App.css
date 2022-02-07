@@ -1,0 +1,97 @@
+:root{
+  --primary-color: #000000;
+  --primary-color-alt: #333333;
+  --secondary-color: #ffffff;
+  --accent-color1: #80d7a2;
+  --accent-color2: #a566af;
+}
+
+html {
+  background-color: var(--primary-color);
+  font-family: sans-serif;
+  color:var(--secondary-color);
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  width: 97%;
+  margin-top: 64px;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  vertical-align: center;
+  align-content: space-between;
+  position: relative;
+  max-width: 95vw;
+  padding: 10px 10px 10px 10px;
+  margin-left: 2.5vw;
+  border-radius: 5px;
+  outline: 3px;
+  outline-color: var(--secondary-color);
+  outline-style: double;
+}
+
+.header {
+  text-align: center;
+  font-size: 9vh;
+  font-weight: 600;
+}
+
+.footer {
+  bottom: 0;
+  color: var(--secondary-color);
+  text-align: center;
+  font-size: 3vh;
+  background-color: var(--primary-color-alt);
+  overflow: hidden;
+  position: fixed;
+  width: 110%;
+}
+
+.bio {
+  text-align: center;
+  color:var(--secondary-color);
+  font-size: 4vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.waveButton {
+  cursor: pointer;
+  padding: 2vh;
+  width: calc(85vw/2);
+  border-radius: 5px;
+  font-size: 3vh;
+  margin: 1vw;
+}
+
+.connectButton {
+  cursor: pointer;
+  width: calc(85vw/2);
+  border-radius: 5px;
+  font-size: 3vh;
+  margin: 1vw;
+}
+
+button {
+  filter: drop-shadow(0 0 0.4rem var(--accent-color2));
+  font-weight: bolder;
+  color: var(--accent-color2);
+  background-color: var(--accent-color1);
+  padding: 2vh;
+  width: 50vw;
+  align-self: center;
+  justify-content: center;
+  font-size: 2.25vh;
+  margin-left: 25vw;
+}
+
+button:hover {
+  background-color: var(--accent-color2);
+  color:var(--accent-color1);
+  filter: drop-shadow(0 0 0.4rem var(--accent-color1));
+}
