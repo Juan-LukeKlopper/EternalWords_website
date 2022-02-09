@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import './App.css';
-import abi from "./utils/WavePortal.json";
+import abi from "./utils/EternalWords.json";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
-  let displayWaves = useState(false);
-  const [allWaves, setAllWaves] = useState([]);
-  const contractAddress = "0xd94811E9931eC443f9C93BC421c236c08B57CFD7";
+  let [message, setMessage] = useState("");
+  let displayMessages = useState(false);
+  const [allMessages, setAllMessages] = useState([]);
+  const contractAddress = "0x280cC86579F702765E2246F5A291AD2B8956bC5f";
   const contractABI = abi.abi;
 
   const connectWallet = async () => {
@@ -27,19 +28,19 @@ const App = () => {
     }
   }
 
-  const wave = async () => {
+  const storeMessage = async () => {
     try{
 
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
-        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+        const eternalWordsContract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        const waveTxn = await wavePortalContract.wave("Final message befor input is live on site", { gasLimit: 300000 });
-        console.log("Mining...", waveTxn.hash);
+        const messageTxn = await eternalWordsContract.storeMessage(message, { gasLimit: 300000 });
+        console.log("Mining...", messageTxn.hash);
 
-        await waveTxn.wait();
-        console.log("Mined -- ", waveTxn.hash);
+        await messageTxn.wait();
+        console.log("Mined -- ", messageTxn.hash);
 
       } else {
         console.log("Ethereum Object not found.")
@@ -49,16 +50,16 @@ const App = () => {
     }
   }
 
-  const waveQuery = async () => {
+  const messageQuery = async () => {
     try{
 
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
-        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-        let count = await wavePortalContract.getTotalWaves();
-        console.log("Total wave count for address: ",count.toNumber());
-        getAllWaves();
+        const eternalWordsContract = new ethers.Contract(contractAddress, contractABI, signer);
+        let count = await eternalWordsContract.getTotalMessages();
+        console.log("The total number of messages that have been sent to this address is ",count.toNumber());
+        getAllMessages();
       } else {
         console.log("Ethereum Object not found.")
       }
@@ -67,26 +68,26 @@ const App = () => {
     }
   }
 
-  const getAllWaves = async () => {
+  const getAllMessages = async () => {
   const { ethereum } = window;
 
   try {
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-      const waves = await wavePortalContract.getAllWaves();
+      const eternalWordsContract = new ethers.Contract(contractAddress, contractABI, signer);
+      const ems = await eternalWordsContract.getAllMessages();
 
-      const wavesCleaned = waves.map(wave => {
+      const wordsCleaned = ems.map(eternalMessage => {
         return {
-          address: wave.waver,
-          timestamp: new Date(wave.timestamp * 1000),
-          message: wave.message,
+          address: eternalMessage.sender,
+          timestamp: new Date(eternalMessage.timestamp * 1000),
+          message: eternalMessage.message,
         };
       });
 
-      setAllWaves(wavesCleaned);
-      displayWaves=True;
+      setAllMessages(wordsCleaned);
+      displayMessages=True;
     } else {
       console.log("Ethereum object doesn't exist!");
     }
@@ -96,11 +97,11 @@ const App = () => {
   };
 
   useEffect(() => {
-  let wavePortalContract;
+  let eternalWordsContract;
 
-  const onNewWave = (from, timestamp, message) => {
-    console.log("NewWave", from, timestamp, message);
-    setAllWaves(prevState => [
+  const onNewEternalWord = (from, timestamp, message) => {
+    console.log("NewEternalWord", from, timestamp, message);
+    setAllMessages(prevState => [
       ...prevState,
       {
         address: from,
@@ -113,14 +114,13 @@ const App = () => {
   if (window.ethereum) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-
-    wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-    wavePortalContract.on("NewWave", onNewWave);
+    eternalWordsContract = new ethers.Contract(contractAddress, contractABI, signer);
+    eternalWordsContract.on("NewEternalWord", onNewEternalWord);
   }
 
   return () => {
-    if (wavePortalContract) {
-      wavePortalContract.off("NewWave", onNewWave);
+    if (eternalWordsContract) {
+      eternalWordsContract.off("NewEternalWord", onNewEternalWord);
     }
   };
 }, []);
@@ -130,12 +130,13 @@ const App = () => {
     <div className="mainContainer">
 
       <div className="dataContainer">
-        <div className="header">
-        Blockchain is the future
+        <div className="header"><u>
+        Welcome to Eternal Words</u>
         </div>
 
         <div className="bio">
-        Hello,I am Juan-luke and I am working on becoming a full-stack web3.0 engineer, that's pretty cool right? Connect your Ethereum wallet and interact with my first contract to wave at me!
+        Eternal Words is a website that allows you to use blockchain to store a message permanently.
+        You can write a message for someone who you deeply care for, a important date in your life, or any other words which you want everyone to see. By storing this message on the Ethereum blockchain we can ensure it will be avaliable to see at a specific address for as long as the blockchain keeps running.
         </div>
 
         {!currentAccount && (
@@ -145,31 +146,32 @@ const App = () => {
         )}
 
         {currentAccount && (
-          //<input ></input>
           <div className="button group">
-        <button className="waveButton" onClick={wave}>
-          Wave at Me
-        </button>
-        <button className="waveButton" onClick={waveQuery}>
-          Display all waves
-        </button>
-        </div>
+          <p className="quest">Enter a message to save on the blockchain then press the send button.</p>
+          <form className="bio">
+          <input required size="30" className="textField" type="text" name="Message" placeholder="Please enter message here" value={message} onChange={(newMessage) => setMessage(newMessage.target.value)}></input>
+          <input type="button" className="submitButton"
+          onClick={storeMessage}
+          value="Send"></input>
+          </form>
+          <button onClick={messageQuery}>
+          Display all messages
+          </button>
+          </div>
         )}
 
-        {displayWaves && (
-          allWaves.map((wave, index) => {
+        {displayMessages && (
+          allMessages.map((eternalMessage, index) => {
           return (
-            <button key={index} className="waveInfoDiv">
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
-              <div>Message: {wave.message}</div>
-            </button>)
+            <div key={index} className="eternalWordsDiv">
+              <div>Sender: {eternalMessage.address}</div>
+              <div>Time: {eternalMessage.timestamp.toString()}</div>
+              <div>Message: {eternalMessage.message}</div>
+            </div>)
         }))}
 
-        </div>
         
-
-      <div className="footer">This project was built by Juan-luke Klopper and is completely open-source.</div>
+        </div>
       </div>
   );
 }

@@ -10,87 +10,158 @@ html {
   background-color: var(--primary-color);
   font-family: sans-serif;
   color:var(--secondary-color);
+  width: 100%;
+  height: 110%;
 }
+
 
 .mainContainer {
   display: flex;
   justify-content: center;
   width: 97%;
-  margin-top: 64px;
+  
 }
 
 .dataContainer {
+  margin-top: 5vh;
+  margin-bottom: 2vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   vertical-align: center;
-  align-content: space-between;
-  position: relative;
-  max-width: 95vw;
+  align-content: center;
+  position: absolute;
+  max-width: 97vw;
   padding: 10px 10px 10px 10px;
   margin-left: 2.5vw;
   border-radius: 5px;
-  outline: 3px;
-  outline-color: var(--secondary-color);
-  outline-style: double;
+  border:3px double var(--secondary-color);
+  padding-bottom: 5vh; 
 }
 
 .header {
+  padding: 5vh;
   text-align: center;
   font-size: 9vh;
   font-weight: 600;
 }
 
-.footer {
-  bottom: 0;
-  color: var(--secondary-color);
-  text-align: center;
-  font-size: 3vh;
-  background-color: var(--primary-color-alt);
-  overflow: hidden;
-  position: fixed;
-  width: 110%;
+* {
+  box-sizing: border-box;
 }
 
 .bio {
   text-align: center;
   color:var(--secondary-color);
   font-size: 4vh;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-top: 3vh;
 }
 
-.waveButton {
-  cursor: pointer;
-  padding: 2vh;
-  width: calc(85vw/2);
-  border-radius: 5px;
-  font-size: 3vh;
-  margin: 1vw;
-}
 
 .connectButton {
-  cursor: pointer;
-  width: calc(85vw/2);
+  width: 20vw;
   border-radius: 5px;
   font-size: 3vh;
   margin: 1vw;
+}
+
+input.submitButton {
+  cursor: pointer;
+  filter: drop-shadow(0 0 0.4rem var(--accent-color2));
+  font-weight: bolder;
+  color: var(--accent-color2);
+  background-color: var(--accent-color1);
+  padding: 1vh;
+  width: 10vw;
+  align-self: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: 3vh;
+  margin: 1vw;
+}
+
+input.textField {
+  height: 5vh;
+}
+
+.quest{
+  font-size: 5vh;
+  font-weight: bold;
+  text-align: center;
+  color:var(--secondary-color);
+  margin-top: 5vh;
 }
 
 button {
+  cursor: pointer;
   filter: drop-shadow(0 0 0.4rem var(--accent-color2));
   font-weight: bolder;
   color: var(--accent-color2);
   background-color: var(--accent-color1);
   padding: 2vh;
-  width: 50vw;
+  margin-left: 28vw;
+  width: 35vw;
   align-self: center;
-  justify-content: center;
+  justify-self: center;
+  vertical-align: center;
   font-size: 2.25vh;
+  margin-bottom: 5vh;
+  margin-top: 5vh;
+}
+
+form {
+  align-self: center;
+  text-align: center;
 }
 
 button:hover {
   background-color: var(--accent-color2);
   color:var(--accent-color1);
   filter: drop-shadow(0 0 0.4rem var(--accent-color1));
+}
+
+.eternalWordsDiv:nth-child(odd) {
+  background-image: linear-gradient(to right, var(--accent-color2), var(--accent-color1));
+  filter: drop-shadow(0 0 0.8rem var(--accent-color2));
+  outline: 3px;
+  color: var(--secondary-color);
+  animation: gradient 2s ease infinite;
+  outline-color: var(--primary-color);
+  outline-style: double;
+  text-align: center;
+  width: 50vw;
+  align-self: center;
+  margin-top: 3vh;
+  padding: 2vh;
+  background-size: 200% 200%;
+  margin-bottom: 10vh;
+}
+
+.eternalWordsDiv:nth-child(even) {
+  background-image: linear-gradient(to right, var(--accent-color1), var(--accent-color2));
+  filter: drop-shadow(0 0 0.8rem var(--accent-color2));
+  outline: 3px;
+  color: var(--primary-color);
+  animation: gradient 2s ease infinite;
+  outline-color: var(--secondary-color);
+  outline-style: double;
+  text-align: center;
+  width: 50vw;
+  align-self: center;
+  margin-top: 2.5vh;
+  padding: 2vh;
+  background-size: 200% 200%;
+  margin-bottom: 5vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 51% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 51% 0%;
+  }
 }
